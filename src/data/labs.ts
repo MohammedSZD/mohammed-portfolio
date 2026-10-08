@@ -1,17 +1,43 @@
 import type { LabProject } from "@/lib/types";
 
 /**
- * Smaller builds, experiments and QA artifacts. Add `repositoryUrl` to any entry
- * once you want it to link out.
+ * Smaller builds and QA artifacts, each verified against its public repository.
+ * Add `repositoryUrl` (https://github.com/…) to link an entry.
  */
+const gh = "https://github.com/MohammedSZD";
+
 export const labs: LabProject[] = [
-  { repo: "mini-ecommerce", kind: "frontend", description: { en: "Small e-commerce front-end build." } },
-  { repo: "shop-site", kind: "frontend", description: { en: "Storefront-style website build." } },
-  { repo: "restaurant-site", kind: "frontend", description: { en: "Restaurant website build." } },
-  { repo: "galaxy-site", kind: "experiment", description: { en: "Themed front-end experiment." } },
-  { repo: "alert-project", kind: "typescript", description: { en: "Alert component work in TypeScript." }, technologies: ["TypeScript"] },
-  { repo: "Test-Alerts", kind: "qa", description: { en: "Test automation around alert handling." } },
-  { repo: "Test-ng-_TheInternet", kind: "qa", description: { en: "Selenium / TestNG automation practice against a public test site." }, technologies: ["Selenium", "TestNG"] },
-  { repo: "manual-testing-todoapp", kind: "test-cases", description: { en: "Manual test cases and bug reports for a to-do app." } },
-  { repo: "Jira-Project-Management", kind: "project-management", description: { en: "Jira project-management and issue-tracking practice." }, technologies: ["Jira"] },
+  {
+    repo: "alert-project",
+    kind: "typescript",
+    description: { en: "Reusable React + TypeScript alert component: success, error, warning and info types with auto-dismiss." },
+    technologies: ["React", "TypeScript", "Vite", "SCSS"],
+    repositoryUrl: `${gh}/alert-project`,
+  },
+  {
+    repo: "Test-Alerts",
+    kind: "typescript",
+    description: { en: "React + TypeScript sandbox used to try out the alert component." },
+    technologies: ["React", "TypeScript", "Vite", "Sass"],
+    repositoryUrl: `${gh}/Test-Alerts`,
+  },
+  {
+    repo: "Test-ng-_TheInternet",
+    kind: "test-cases",
+    description: { en: "Manual QA of the-internet.herokuapp.com: test plan, test cases and a bug report (two defects logged)." },
+    repositoryUrl: `${gh}/Test-ng-_TheInternet`,
+  },
+  {
+    repo: "manual-testing-todoapp",
+    kind: "test-cases",
+    description: { en: "Manual QA of a to-do web app: test plan, test cases and bug report." },
+    repositoryUrl: `${gh}/manual-testing-todoapp`,
+  },
+  {
+    repo: "Jira-Project-Management",
+    kind: "project-management",
+    description: { en: "Jira project report and sprint report for a user-authentication feature set." },
+    technologies: ["Jira"],
+    repositoryUrl: `${gh}/Jira-Project-Management`,
+  },
 ];

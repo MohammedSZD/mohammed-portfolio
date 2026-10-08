@@ -6,6 +6,8 @@ import { profile } from "@/data/profile";
 import { siteUrl } from "@/lib/site";
 import { Hero } from "@/components/sections/Hero";
 import { SelectedWork } from "@/components/sections/SelectedWork";
+import { Services } from "@/components/sections/Services";
+import { ThenAndNow } from "@/components/sections/ThenAndNow";
 import { Experience } from "@/components/sections/Experience";
 import { Capabilities } from "@/components/sections/Capabilities";
 import { About } from "@/components/sections/About";
@@ -43,6 +45,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       />
       <Hero locale={locale} dict={dict} />
       <SelectedWork locale={locale} dict={dict} />
+      <ThenAndNow locale={locale} dict={dict} />
+      <Services locale={locale} dict={dict} />
       <Experience locale={locale} dict={dict} />
       <Capabilities locale={locale} dict={dict} />
       <About locale={locale} dict={dict} />

@@ -13,7 +13,7 @@ export function Experience({ locale, dict }: { locale: Locale; dict: Dictionary 
   return (
     <section id="experience" aria-labelledby="exp-title" className="border-t border-line py-24 md:py-36">
       <div className="container-x">
-        <SectionHeading index="02" id="exp-title" eyebrow={dict.experience.eyebrow} title={dict.experience.title} />
+        <SectionHeading index="03" id="exp-title" eyebrow={dict.experience.eyebrow} title={dict.experience.title} />
 
         {primary.map((e) => (
           <Reveal key={e.id}>

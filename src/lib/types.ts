@@ -14,7 +14,16 @@ export type ProjectStatus =
   | "in-development"
   | "concept"
   | "experiment"
-  | "personal";
+  | "personal"
+  | "demo";
+
+/** Filter categories for the project gallery. "Featured" is derived from `featured`. */
+export type ProjectCategory =
+  | "e-commerce"
+  | "business-websites"
+  | "internal-systems"
+  | "web-applications"
+  | "in-development";
 
 export type Visibility = "public" | "private" | "confidential";
 
@@ -33,6 +42,8 @@ export type PlaceholderVisual =
 export interface ProjectImage {
   /** Path inside /public, e.g. "/projects/medmar/cover.webp". */
   src: string;
+  /** "mobile" screenshots are 780×1688, "desktop" (default) 1920×1200. */
+  device?: "desktop" | "mobile";
   alt: LText;
   caption?: LText;
 }
@@ -42,6 +53,10 @@ export interface Project {
   title: LText;
   shortTitle: string;
   category: LText;
+  /** Drives the gallery filters. */
+  categories: ProjectCategory[];
+  /** Archived projects are kept in the file but not listed or generated. */
+  archived?: boolean;
   tagline?: LText;
   /** One or two sentences, used on cards and in metadata. */
   summary: LText;
@@ -71,6 +86,15 @@ export interface Project {
   /** Only verified numbers. */
   metrics?: { value: string; label: LText }[];
   architecture?: { summary?: LText; layers: { label: LText; items: string[] }[] };
+  /** Accurate authorship wording, shown on the case study. */
+  authorship?: LText;
+  /** Before / after comparison (rendered as a slider plus side-by-side). */
+  comparison?: {
+    title: LText;
+    body: LText;
+    before: ProjectImage & { label: LText };
+    after: ProjectImage & { label: LText };
+  };
   /** Slugs of related projects. */
   related?: string[];
   visual: PlaceholderVisual;

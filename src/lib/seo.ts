@@ -10,8 +10,10 @@ export function alternatesFor(locale: Locale, path: string): Metadata["alternate
   return { canonical: `${siteUrl}${localePath(locale, path)}`, languages };
 }
 
-export function pageMetadata(opts: { locale: Locale; path: string; title: string; description: string; absoluteTitle?: boolean }): Metadata {
+export function pageMetadata(opts: { locale: Locale; path: string; title: string; description: string; absoluteTitle?: boolean; image?: string }): Metadata {
   const url = `${siteUrl}${localePath(opts.locale, opts.path)}`;
+  const image = `${siteUrl}${opts.image ?? "/og/default.jpg"}`;
+  const images = [{ url: image, width: 1200, height: 630, alt: opts.title }];
   return {
     title: opts.absoluteTitle ? { absolute: opts.title } : opts.title,
     description: opts.description,
@@ -23,7 +25,8 @@ export function pageMetadata(opts: { locale: Locale; path: string; title: string
       title: opts.title,
       description: opts.description,
       locale: localeLabels[opts.locale].og,
+      images,
     },
-    twitter: { card: "summary_large_image", title: opts.title, description: opts.description },
+    twitter: { card: "summary_large_image", title: opts.title, description: opts.description, images: [image] },
   };
 }

@@ -11,7 +11,7 @@ export function About({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
     <section id="about" aria-labelledby="about-title" className="border-t border-line py-24 md:py-36">
       <div className="container-x">
-        <SectionHeading index="04" id="about-title" eyebrow={dict.about.eyebrow} title={dict.about.title} />
+        <SectionHeading index="05" id="about-title" eyebrow={dict.about.eyebrow} title={dict.about.title} />
         <div className="grid gap-12 md:grid-cols-12 md:gap-10">
           <Reveal className="md:col-span-7">
             <p className="font-serif text-[clamp(1.6rem,1.15rem+1.6vw,2.4rem)] leading-[1.2] text-balance">{paragraphs[0]}</p>

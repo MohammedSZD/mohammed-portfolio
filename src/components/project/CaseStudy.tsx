@@ -11,6 +11,9 @@ import { StatusBadge } from "@/components/ui/StatusBadge";
 import { TagList } from "@/components/ui/Tag";
 import { Reveal } from "@/components/ui/Reveal";
 import { GithubIcon } from "@/components/ui/Icons";
+import { publicFileExists } from "@/lib/assets";
+import { Lightbox } from "./Lightbox";
+import { BeforeAfter } from "./BeforeAfter";
 
 function Section({ id, label, children }: { id: string; label: string; children: React.ReactNode }) {
   return (
@@ -48,6 +51,9 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
   const prev = projects[(idx - 1 + projects.length) % projects.length];
   const next = projects[(idx + 1) % projects.length];
   const related = (p.related ?? []).map((s) => projects.find((x) => x.slug === s)).filter((x): x is Project => !!x);
+  const galleryItems = (p.gallery ?? [])
+    .filter((g) => publicFileExists(g.src))
+    .map((g) => ({ src: g.src, alt: t(g.alt, locale), caption: g.caption ? t(g.caption, locale) : undefined, device: g.device ?? ("desktop" as const) }));
   const links = [...(p.liveUrls ?? []), ...(p.liveUrl ? [{ label: p.liveUrl.replace(/^https?:\/\//, ""), url: p.liveUrl }] : [])];
 
   const meta: { label: string; value: string }[] = [
@@ -113,7 +119,7 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
         </dl>
 
         <div className="hero-in mt-10" style={{ "--d": "320ms" } as React.CSSProperties}>
-          <ProjectMedia image={p.coverImage} visual={p.visual} locale={locale} dict={dict} priority sizes="(min-width: 1280px) 1200px, 100vw" className="md:aspect-[21/10]" />
+          <ProjectMedia image={p.coverImage} visual={p.visual} locale={locale} dict={dict} priority placeholderLabel={p.visibility === "confidential" ? d.confidentialArt : undefined} sizes="(min-width: 1280px) 1200px, 100vw" className="md:aspect-[21/10]" />
         </div>
       </header>
 
@@ -140,6 +146,12 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
           {p.statusNote && (
             <p className="mt-8 border-s-2 border-accent bg-accent-soft py-3 ps-4 pe-4 text-sm text-muted">{t(p.statusNote, locale)}</p>
           )}
+          {p.authorship && (
+            <p className="mt-4 text-sm text-muted">
+              <strong className="font-medium text-fg">{d.authorship}. </strong>
+              {t(p.authorship, locale)}
+            </p>
+          )}
           {p.confidentialityNote && (
             <p className="mt-4 flex gap-3 rounded-lg border border-line bg-surface p-4 text-sm text-muted">
               <Lock size={16} className="mt-0.5 shrink-0 text-subtle" aria-hidden />
@@ -150,6 +162,24 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
             </p>
           )}
         </Section>
+
+        {p.comparison && (
+          <section aria-labelledby="comparison" className="border-t border-line py-14 md:py-20">
+            <Reveal>
+              <h2 id="comparison" className="eyebrow mb-4">
+                {d.comparison}
+              </h2>
+              <p className="mb-3 max-w-[22ch] font-serif text-[clamp(2rem,1.3rem+2.6vw,3.4rem)] leading-[1.05] text-balance">{t(p.comparison.title, locale)}</p>
+              <p className="mb-8 max-w-[70ch] text-muted text-pretty">{t(p.comparison.body, locale)}</p>
+              <BeforeAfter
+                label={dict.compare.sliderLabel}
+                before={{ src: p.comparison.before.src, alt: t(p.comparison.before.alt, locale), label: t(p.comparison.before.label, locale) }}
+                after={{ src: p.comparison.after.src, alt: t(p.comparison.after.alt, locale), label: t(p.comparison.after.label, locale) }}
+              />
+              <p className="mt-3 text-sm text-subtle">{dict.compare.drag}</p>
+            </Reveal>
+          </section>
+        )}
 
         {p.responsibilities && (
           <Section id="role" label={d.responsibilities}>
@@ -238,18 +268,9 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
           </Section>
         )}
 
-        {p.gallery && p.gallery.length > 0 && (
+        {galleryItems.length > 0 && (
           <Section id="gallery" label={d.gallery}>
-            <ul className="grid gap-6 sm:grid-cols-2">
-              {p.gallery.map((g) => (
-                <li key={g.src}>
-                  <figure>
-                    <ProjectMedia image={g} visual={p.visual} locale={locale} dict={dict} sizes="(min-width: 1024px) 40vw, 100vw" />
-                    {g.caption && <figcaption className="mt-2 text-sm text-subtle">{t(g.caption, locale)}</figcaption>}
-                  </figure>
-                </li>
-              ))}
-            </ul>
+            <Lightbox items={galleryItems} labels={dict.gallery} />
           </Section>
         )}
 

@@ -12,7 +12,7 @@ export function Contact({ dict }: { locale: Locale; dict: Dictionary }) {
       <div className="container-x grid gap-16 lg:grid-cols-12 lg:gap-10">
         <Reveal className="lg:col-span-7">
           <p className="eyebrow mb-5 flex items-center gap-3">
-            <span className="text-accent">07</span>
+            <span className="text-accent">08</span>
             <span aria-hidden className="h-px w-8 bg-line-strong" />
             {dict.contact.eyebrow}
           </p>

@@ -10,7 +10,7 @@ export function Education({ locale, dict }: { locale: Locale; dict: Dictionary }
   return (
     <section id="education" aria-labelledby="edu-title" className="border-t border-line bg-surface/50 py-24 md:py-36">
       <div className="container-x">
-        <SectionHeading index="05" id="edu-title" eyebrow={dict.education.eyebrow} title={dict.education.title} />
+        <SectionHeading index="06" id="edu-title" eyebrow={dict.education.eyebrow} title={dict.education.title} />
         <div className="grid gap-16 md:grid-cols-2 md:gap-12">
           <Reveal>
             <h3 className="eyebrow mb-6">{dict.education.degrees}</h3>
