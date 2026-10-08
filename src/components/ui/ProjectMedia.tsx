@@ -18,6 +18,7 @@ export function ProjectMedia({
   sizes = "(min-width: 1024px) 60vw, 100vw",
   priority = false,
   className = "",
+  placeholderLabel,
 }: {
   image?: ProjectImage;
   visual: PlaceholderVisual;
@@ -26,6 +27,7 @@ export function ProjectMedia({
   sizes?: string;
   priority?: boolean;
   className?: string;
+  placeholderLabel?: string;
 }) {
   const hasImage = image && publicFileExists(image.src);
   const dev = process.env.NODE_ENV !== "production";
@@ -37,7 +39,7 @@ export function ProjectMedia({
         <>
           <PlaceholderArt visual={visual} />
           <span className="absolute bottom-3 start-3 rounded-full bg-bg/80 px-2.5 py-1 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-subtle backdrop-blur">
-            {dev && image ? `${dict.projectPage.placeholderHint} ${image.src}` : dict.projectPage.illustrative}
+            {dev && image ? `${dict.projectPage.placeholderHint} ${image.src}` : (placeholderLabel ?? dict.projectPage.illustrative)}
           </span>
         </>
       )}

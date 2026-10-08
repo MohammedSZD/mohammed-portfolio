@@ -5,7 +5,7 @@ function resolveSiteUrl() {
   if (explicit) return explicit.replace(/\/$/, "");
   const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL;
   if (vercel) return `https://${vercel}`;
-  return "http://localhost:3000";
+  return "https://mohammed-portfolio-phi.vercel.app";
 }
 
 export const siteUrl = resolveSiteUrl();

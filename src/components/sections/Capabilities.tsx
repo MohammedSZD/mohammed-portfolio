@@ -9,7 +9,7 @@ export function Capabilities({ locale, dict }: { locale: Locale; dict: Dictionar
   return (
     <section id="capabilities" aria-labelledby="cap-title" className="border-t border-line bg-surface/50 py-24 md:py-36">
       <div className="container-x">
-        <SectionHeading index="03" id="cap-title" eyebrow={dict.capabilities.eyebrow} title={dict.capabilities.title} intro={dict.capabilities.intro} />
+        <SectionHeading index="04" id="cap-title" eyebrow={dict.capabilities.eyebrow} title={dict.capabilities.title} intro={dict.capabilities.intro} />
         <dl>
           {skills.map((g) => (
             <Reveal key={g.id}>

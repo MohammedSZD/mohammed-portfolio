@@ -8,6 +8,7 @@ const dot: Record<ProjectStatus, string> = {
   concept: "bg-violet-400",
   experiment: "bg-fuchsia-400",
   personal: "bg-teal-400",
+  demo: "bg-indigo-400",
 };
 
 export function StatusBadge({ status, dict }: { status: ProjectStatus; dict: Dictionary }) {

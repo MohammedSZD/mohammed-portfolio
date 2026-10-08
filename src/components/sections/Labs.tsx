@@ -12,7 +12,7 @@ export function Labs({ locale, dict }: { locale: Locale; dict: Dictionary }) {
     <section id="labs" aria-labelledby="labs-title" className="border-t border-line py-24 md:py-32">
       <div className="container-x">
         <SectionHeading
-          index="06"
+          index="07"
           id="labs-title"
           eyebrow={dict.labs.eyebrow}
           title={dict.labs.title}
@@ -32,18 +32,20 @@ export function Labs({ locale, dict }: { locale: Locale; dict: Dictionary }) {
                   <div className="min-w-0">
                     <p className="truncate font-mono text-sm">{l.repo}</p>
                     <p className="mt-1 text-sm text-muted">{t(l.description, locale)}</p>
+                    {l.technologies && <p className="mt-1 font-mono text-[0.7rem] text-subtle">{l.technologies.join(" · ")}</p>}
                   </div>
-                  <span className="eyebrow shrink-0 text-end">{dict.labs.kinds[l.kind]}</span>
+                  <span className="eyebrow sm:shrink-0 sm:text-end">{dict.labs.kinds[l.kind]}</span>
                 </>
               );
               return (
                 <li key={l.repo} className="border-b border-line">
                   {l.repositoryUrl ? (
-                    <a href={l.repositoryUrl} target="_blank" rel="noopener noreferrer" className="flex items-start justify-between gap-6 py-5 transition-colors hover:text-accent">
+                    <a href={l.repositoryUrl} target="_blank" rel="noopener noreferrer" className="flex flex-col gap-2 py-5 transition-colors hover:text-accent sm:flex-row sm:items-start sm:justify-between sm:gap-6">
                       {inner}
+                      <span className="sr-only">({dict.a11y.external})</span>
                     </a>
                   ) : (
-                    <div className="flex items-start justify-between gap-6 py-5">{inner}</div>
+                    <div className="flex flex-col gap-2 py-5 sm:flex-row sm:items-start sm:justify-between sm:gap-6">{inner}</div>
                   )}
                 </li>
               );

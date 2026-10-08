@@ -23,8 +23,8 @@ export const profile = {
     tr: "Üretim ortamında çalışan yazılımları uçtan uca geliştiriyorum.",
   } satisfies LText,
   heroDescription: {
-    en: "Full-stack engineer with a foundation in cybersecurity and secure application design. I architect and ship real systems — industrial management software, client websites, web applications and automation workflows.",
-    tr: "Siber güvenlik ve güvenli uygulama tasarımı temelli bir full-stack mühendisiyim. Endüstriyel yönetim yazılımları, kurumsal web siteleri, web uygulamaları ve otomasyon akışları gibi gerçek sistemleri tasarlayıp yayına alıyorum.",
+    en: "Full-stack software engineer building business websites, e-commerce platforms, dashboards and custom systems — with a foundation in cybersecurity and secure application design. R&D Software Engineer by day; available for selected freelance projects.",
+    tr: "İş siteleri, e-ticaret platformları, paneller ve özel sistemler geliştiren bir full-stack yazılım mühendisiyim; siber güvenlik ve güvenli uygulama tasarımı temelim var. Gün içinde Ar-Ge Yazılım Mühendisiyim; seçili freelance projelere açığım.",
   } satisfies LText,
   summary: {
     en: [

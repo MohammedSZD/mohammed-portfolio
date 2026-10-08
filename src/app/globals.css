@@ -222,3 +222,11 @@ body {
 body.menu-open {
   overflow: hidden;
 }
+
+/* Print: used by `npm run cv` to produce the PDF résumé. */
+@media print {
+  @page { size: A4; margin: 14mm 14mm; }
+  body > header, body > footer, body > a { display: none !important; }
+  html, body { background: #fff !important; color: #15140f !important; }
+  .resume { font-size: 9pt; }
+}

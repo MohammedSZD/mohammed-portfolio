@@ -20,6 +20,7 @@ const nextConfig: NextConfig = {
       beforeFiles: [
         { source: "/", destination: "/en" },
         { source: "/projects", destination: "/en/projects" },
+        { source: "/resume", destination: "/en/resume" },
         { source: "/projects/:slug", destination: "/en/projects/:slug" },
       ],
       afterFiles: [],
