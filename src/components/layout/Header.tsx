@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
+import { t } from "@/i18n/localize";
 import { navigation } from "@/data/navigation";
 import { profile } from "@/data/profile";
 import { ThemeToggle } from "./ThemeToggle";
@@ -36,17 +37,21 @@ export function Header({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const home = localePath(locale, "/");
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300 ${
-        scrolled || open ? "border-b border-line bg-bg/85 backdrop-blur-md" : "border-b border-transparent"
-      }`}
-    >
-      <div className="container-x flex h-16 items-center justify-between gap-4 md:h-[4.5rem]">
-        <Link href={home} className="group flex items-center gap-3" aria-label={`${profile.name} — ${dict.a11y.home}`}>
+    <header className="fixed inset-x-0 top-0 z-50">
+      {/* The blur lives on its own layer: a backdrop-filter on the header itself would become the
+          containing block of the fixed mobile menu and collapse it to the header's height. */}
+      <div
+        aria-hidden
+        className={`absolute inset-0 border-b bg-bg/85 backdrop-blur-md transition-opacity duration-300 ${
+          scrolled || open ? "border-line opacity-100" : "border-transparent opacity-0"
+        }`}
+      />
+      <div className="container-x relative flex h-16 items-center justify-between gap-4 md:h-[4.5rem]">
+        <Link href={home} className="group flex items-center gap-3" aria-label={`${t(profile.displayName, locale)} — ${dict.a11y.home}`}>
           <span className="grid h-9 w-9 place-items-center rounded-full border border-line-strong font-serif text-[1.05rem] leading-none transition-colors group-hover:border-accent group-hover:text-accent">
             {profile.initials}
           </span>
-          <span className="hidden text-sm font-medium tracking-tight sm:block">{profile.name}</span>
+          <span className="hidden text-sm font-medium tracking-tight sm:block">{t(profile.displayName, locale)}</span>
         </Link>
 
         <nav aria-label={dict.a11y.primaryNav} className="hidden items-center gap-8 lg:flex">
@@ -86,7 +91,7 @@ export function Header({ locale, dict }: { locale: Locale; dict: Dictionary }) {
                 <Link
                   href={`${home}${item.hash}`}
                   onClick={() => setOpen(false)}
-                  className="flex items-baseline justify-between py-5 font-serif text-[2.6rem] leading-none"
+                  className="flex items-baseline justify-between py-5 font-serif text-[2.4rem] leading-tight transition-colors hover:text-accent"
                 >
                   <span>{dict.nav[item.labelKey]}</span>
                   <span className="font-mono text-xs text-subtle">0{i + 1}</span>
@@ -94,7 +99,7 @@ export function Header({ locale, dict }: { locale: Locale; dict: Dictionary }) {
               </li>
             ))}
           </ul>
-          <p className="eyebrow mt-10">{profile.headline[locale] ?? profile.headline.en}</p>
+          <p className="eyebrow mt-10">{t(profile.headline, locale)}</p>
         </nav>
       </div>
     </header>

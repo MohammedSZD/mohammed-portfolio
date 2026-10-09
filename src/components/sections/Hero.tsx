@@ -11,7 +11,7 @@ import { GithubIcon, LinkedinIcon } from "@/components/ui/Icons";
 export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const home = localePath(locale, "/");
   const hasCv = publicFileExists(profile.cvPath);
-  const [first, ...rest] = profile.name.split(" ");
+  const [first, ...rest] = t(profile.displayName, locale).split(" ");
   const roles = t(profile.positioning, locale);
 
   return (
@@ -86,7 +86,7 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
             </div>
           </div>
 
-          <aside className="hero-in lg:col-span-4 lg:pt-6" style={{ "--d": "420ms" } as React.CSSProperties} aria-label="Summary">
+          <div role="group" className="hero-in lg:col-span-4 lg:pt-6" style={{ "--d": "420ms" } as React.CSSProperties} aria-label={dict.a11y.summary}>
             <dl className="border-t border-line">
               {profile.facts.map((f) => (
                 <div key={f.label.en} className="border-b border-line py-5">
@@ -95,10 +95,10 @@ export function Hero({ locale, dict }: { locale: Locale; dict: Dictionary }) {
                 </div>
               ))}
             </dl>
-          </aside>
+          </div>
         </div>
 
-        <ul className="hero-in mt-16 grid grid-cols-2 border-y border-line md:mt-24 md:grid-cols-4" style={{ "--d": "520ms" } as React.CSSProperties}>
+        <ul aria-label={dict.hero.roles} className="hero-in mt-16 grid grid-cols-2 border-y border-line md:mt-24 md:grid-cols-4" style={{ "--d": "520ms" } as React.CSSProperties}>
           {roles.map((r, i) => (
             <li
               key={r}

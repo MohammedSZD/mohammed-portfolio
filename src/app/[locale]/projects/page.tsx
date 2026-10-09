@@ -25,6 +25,7 @@ export default async function ProjectsPage({ params }: { params: Promise<{ local
         <h1 className="h-section hero-in mb-12 max-w-[18ch] text-balance md:mb-16" style={{ "--d": "80ms" } as React.CSSProperties}>
           {dict.meta.projectsTitle}
         </h1>
+        <h2 className="sr-only">{dict.work.galleryTitle}</h2>
         <ProjectGrid locale={locale} dict={dict} />
       </div>
       <Labs locale={locale} dict={dict} />

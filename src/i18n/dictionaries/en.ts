@@ -16,6 +16,11 @@ export const en = {
     switchToDark: "Switch to dark theme",
     external: "opens in a new tab",
     home: "Home",
+    summary: "Summary",
+    footerNav: "Footer",
+    projectNav: "Project navigation",
+    screenshot: "Screenshot",
+    projectLinks: "Project links",
   },
   nav: { work: "Work", services: "Services", experience: "Experience", capabilities: "Capabilities", about: "About", contact: "Contact" },
   hero: {
@@ -24,6 +29,7 @@ export const en = {
     downloadCv: "Download CV",
     scroll: "Scroll",
     available: "Based in Turkey",
+    roles: "Roles",
   },
   status: {
     production: "Production",
@@ -33,6 +39,7 @@ export const en = {
     experiment: "Experiment",
     personal: "Personal project",
     demo: "Demo project",
+    functional: "Functional · private",
   },
   visibility: {
     public: "Public",
@@ -62,8 +69,9 @@ export const en = {
   services: {
     eyebrow: "Services",
     title: "What I can build for you",
-    intro: "Available for selected freelance projects alongside my engineering role.",
+    intro: "Seven focused offerings, each backed by work you can open. Available for selected freelance projects alongside my engineering role.",
     cta: "Discuss a project",
+    examples: "Examples",
   },
   compare: {
     eyebrow: "Featured case study",
@@ -79,9 +87,17 @@ export const en = {
     intro: "A few of the products and platforms I've worked on — each with the context, the engineering, and an honest status.",
     viewCase: "View case study",
     allProjects: "All projects",
-    clientEyebrow: "Professional web projects",
-    clientTitle: "Client and professional websites",
-    clientIntro: "Shipped websites and web integrations for businesses.",
+    flagshipEyebrow: "Selected work",
+    flagshipTitle: "Systems and products I've built",
+    flagshipIntro: "Two systems that show the depth of my engineering — data modelling, access control and operations software — each with an honest status.",
+    moreEyebrow: "More work",
+    moreTitle: "Showcases, platforms and automation",
+    moreIntro: "Demonstrations, work in progress and personal builds, labelled for what they are.",
+    highlights: "Engineering highlights",
+    browseAll: "Browse all projects and filters",
+    clientEyebrow: "Client work",
+    clientTitle: "Live websites for real businesses",
+    clientIntro: "Bilingual, responsive sites delivered to clients in travel and healthcare, with their contact channels built in.",
     visit: "Visit site",
     gallerySection: "Projects",
     galleryTitle: "Selected projects & case studies",
@@ -140,6 +156,7 @@ export const en = {
     messageLabel: "Message",
     messagePlaceholder: "A few lines about what you're working on…",
     send: "Compose email",
+    subject: "Portfolio enquiry",
     formNote: "This opens your email app with the message pre-filled. Nothing is sent from this page.",
     location: "Location",
     elsewhere: "Elsewhere",
@@ -147,6 +164,7 @@ export const en = {
   footer: {
     rights: "All rights reserved.",
     built: "Designed & built with Next.js.",
+    tagline: "Production software, built end to end.",
     top: "Back to top",
   },
   projectPage: {
@@ -181,6 +199,7 @@ export const en = {
     illustrative: "Illustrative placeholder",
     confidentialArt: "Illustration · confidential system",
     metrics: "At a glance",
+    english: "This project's detailed write-up is available in English only; the summary above is translated.",
   },
   notFound: {
     title: "Page not found",

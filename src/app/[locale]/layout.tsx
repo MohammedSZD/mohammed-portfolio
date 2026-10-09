@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
-import { Instrument_Serif } from "next/font/google";
+import { Amiri, IBM_Plex_Sans_Arabic, Instrument_Serif } from "next/font/google";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "../globals.css";
@@ -20,6 +20,23 @@ const serif = Instrument_Serif({
   display: "swap",
 });
 
+/* Arabic faces: loaded lazily via unicode-range, so they are only downloaded when Arabic text is on the page. */
+const arabicSans = IBM_Plex_Sans_Arabic({
+  subsets: ["arabic", "latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-plex-arabic",
+  display: "swap",
+  preload: false,
+});
+const arabicSerif = Amiri({
+  subsets: ["arabic", "latin"],
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-amiri",
+  display: "swap",
+  preload: false,
+});
+
 /** Runs before first paint: sets the theme (stored choice, else OS preference) and flags JS availability. */
 const themeScript = `(function(){var d=document.documentElement;d.classList.add('js');var t;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}d.setAttribute('data-theme',t)})();`;
 
@@ -31,8 +48,8 @@ export function generateStaticParams() {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4f2ec" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b0b0c" },
+    { media: "(prefers-color-scheme: light)", color: "#f5f3ed" },
+    { media: "(prefers-color-scheme: dark)", color: "#1c1b19" },
   ],
 };
 
@@ -46,15 +63,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     applicationName: profile.name,
     authors: [{ name: profile.name, url: profile.github }],
     creator: profile.name,
-    keywords: [
-      "Full-Stack Engineer",
-      "Software Engineer",
-      "Laravel Developer",
-      "React Developer",
-      "Next.js Developer",
-      "R&D Software Engineer",
-      "Web Application Development",
-    ],
+    keywords:
+      locale === "ar"
+        ? ["مهندس برمجيات", "مطور Full-Stack", "مطور Laravel", "مطور React", "مطور Next.js", "تطوير مواقع الويب", "تطوير تطبيقات الويب", "متجر إلكتروني"]
+        : ["Full-Stack Engineer", "Software Engineer", "Laravel Developer", "React Developer", "Next.js Developer", "R&D Software Engineer", "Web Application Development"],
     ...pageMetadata({ locale, path: "/", title: dict.meta.siteTitle, description: dict.meta.siteDescription, absoluteTitle: true }),
     robots: { index: true, follow: true },
   };
@@ -75,7 +87,7 @@ export default async function LocaleLayout({
     <html
       lang={localeLabels[locale].htmlLang}
       dir={localeDirection[locale]}
-      className={`${GeistSans.variable} ${GeistMono.variable} ${serif.variable}`}
+      className={`${GeistSans.variable} ${GeistMono.variable} ${serif.variable} ${arabicSans.variable} ${arabicSerif.variable}`}
       data-theme="dark"
       suppressHydrationWarning
     >

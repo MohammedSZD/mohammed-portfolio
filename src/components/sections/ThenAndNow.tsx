@@ -14,7 +14,7 @@ export function ThenAndNow({ locale, dict }: { locale: Locale; dict: Dictionary 
   if (!p?.comparison) return null;
   const c = p.comparison;
   return (
-    <section aria-labelledby="then-now-title" className="border-t border-line py-24 md:py-32">
+    <section aria-labelledby="then-now-title" className="border-t border-line py-20 md:py-28">
       <div className="container-x">
         <Reveal className="mb-10 grid gap-6 md:grid-cols-12 md:items-end">
           <div className="md:col-span-8">
@@ -36,7 +36,7 @@ export function ThenAndNow({ locale, dict }: { locale: Locale; dict: Dictionary 
             <div className="flex flex-wrap items-center gap-5 text-sm font-medium">
               {p.liveUrls?.slice(0, 2).map((l) => (
                 <a key={l.url} href={l.url} target="_blank" rel="noopener noreferrer" className="link inline-flex items-center gap-1.5">
-                  {l.label} <ArrowUpRight size={15} aria-hidden />
+                  {t(l.label, locale)} <ArrowUpRight size={15} aria-hidden />
                   <span className="sr-only">({dict.a11y.external})</span>
                 </a>
               ))}

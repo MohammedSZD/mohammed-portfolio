@@ -15,7 +15,9 @@ export type ProjectStatus =
   | "concept"
   | "experiment"
   | "personal"
-  | "demo";
+  | "demo"
+  /** Complete for its documented scope and used privately; not publicly available. */
+  | "functional";
 
 /** Filter categories for the project gallery. "Featured" is derived from `featured`. */
 export type ProjectCategory =
@@ -51,7 +53,7 @@ export interface ProjectImage {
 export interface Project {
   slug: string;
   title: LText;
-  shortTitle: string;
+  shortTitle: LText;
   category: LText;
   /** Drives the gallery filters. */
   categories: ProjectCategory[];
@@ -69,7 +71,8 @@ export interface Project {
   role?: LText;
   client?: string;
   featured: boolean;
-  technologies: string[];
+  /** Plain strings are product / technology names shown as-is; `{ en, ar }` entries are descriptive tags. */
+  technologies: (string | LText)[];
   responsibilities?: LList;
   challenges?: LList;
   solutions?: LList;
@@ -79,13 +82,15 @@ export interface Project {
   coverImage?: ProjectImage;
   gallery?: ProjectImage[];
   liveUrl?: string;
-  liveUrls?: { label: string; url: string }[];
+  liveUrls?: { label: LText; url: string }[];
+  /** Overrides "Live demo" on cards when the link is something else (e.g. a sign-in preview). */
+  cardLinkLabel?: LText;
   repositoryUrl?: string;
   visibility: Visibility;
   confidentialityNote?: LText;
   /** Only verified numbers. */
   metrics?: { value: string; label: LText }[];
-  architecture?: { summary?: LText; layers: { label: LText; items: string[] }[] };
+  architecture?: { summary?: LText; layers: { label: LText; items: (string | LText)[] }[] };
   /** Accurate authorship wording, shown on the case study. */
   authorship?: LText;
   /** Before / after comparison (rendered as a slider plus side-by-side). */
@@ -110,7 +115,7 @@ export interface LabProject {
 
 export interface ExperienceEntry {
   id: string;
-  company: string;
+  company: string | LText;
   role: LText;
   period: LText;
   current?: boolean;
@@ -130,14 +135,16 @@ export interface SkillGroup {
   note?: LText;
   /** Marks areas that are being actively developed rather than shipped in production. */
   developing?: boolean;
-  items: string[];
+  /** Plain strings are product / technology names; localized entries are descriptive skills. */
+  items: (string | LText)[];
 }
 
 export interface EducationEntry {
   id: string;
-  institution: string;
+  institution: LText;
   degree: LText;
   period: string;
+  periodLabel: LText;
   status: "in-progress" | "completed";
   details?: { title: LText; items: LList };
 }

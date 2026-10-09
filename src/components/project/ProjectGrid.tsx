@@ -1,6 +1,6 @@
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { t } from "@/i18n/localize";
+import { t, tl } from "@/i18n/localize";
 import { projects } from "@/data/projects";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectFilter } from "./ProjectFilter";
@@ -22,7 +22,7 @@ export function ProjectGrid({ locale, dict }: { locale: Locale; dict: Dictionary
     slug: p.slug,
     featured: p.featured,
     categories: p.categories,
-    searchText: [t(p.title, locale), p.shortTitle, t(p.summary, locale), t(p.category, locale), ...p.technologies].join(" ").toLowerCase(),
+    searchText: [t(p.title, locale), t(p.shortTitle, locale), p.shortTitle.en, p.title.en, t(p.summary, locale), t(p.category, locale), ...tl(p.technologies, locale), ...p.technologies.filter((x) => typeof x !== "string").map((x) => (x as { en: string }).en)].join(" ").toLowerCase(),
     node: <ProjectCard project={p} locale={locale} dict={dict} priority={i < 2} />,
   }));
 

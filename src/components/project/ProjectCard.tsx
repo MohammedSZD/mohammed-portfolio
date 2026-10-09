@@ -4,7 +4,7 @@ import type { Project } from "@/lib/types";
 import type { Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { t } from "@/i18n/localize";
+import { t, tl } from "@/i18n/localize";
 import { publicFileExists } from "@/lib/assets";
 import { ProjectMedia } from "@/components/ui/ProjectMedia";
 import { StatusBadge } from "@/components/ui/StatusBadge";
@@ -45,7 +45,7 @@ export function ProjectCard({ project, locale, dict, priority = false }: { proje
         </h3>
         {project.tagline && <p className="mt-1.5 font-serif text-lg italic text-muted">{t(project.tagline, locale)}</p>}
         <p className="mt-3 line-clamp-4 text-pretty text-muted">{t(project.summary, locale)}</p>
-        <TagList items={project.technologies.slice(0, 5)} className="mt-4" />
+        <TagList items={tl(project.technologies, locale).slice(0, 5)} className="mt-4" />
 
         <div className="relative z-10 mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 pt-6 text-sm font-medium">
           <Link href={href} className="inline-flex items-center gap-1.5 rounded-full bg-fg px-4 py-2 text-bg transition-colors hover:bg-accent hover:text-on-accent">
@@ -53,7 +53,7 @@ export function ProjectCard({ project, locale, dict, priority = false }: { proje
           </Link>
           {live && (
             <a href={live} target="_blank" rel="noopener noreferrer" className="link inline-flex items-center gap-1.5">
-              {dict.card.liveDemo} <ArrowUpRight size={15} aria-hidden />
+              {project.cardLinkLabel ? t(project.cardLinkLabel, locale) : dict.card.liveDemo} <ArrowUpRight size={15} aria-hidden />
               <span className="sr-only">({dict.a11y.external})</span>
             </a>
           )}

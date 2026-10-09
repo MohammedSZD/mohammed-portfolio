@@ -12,14 +12,14 @@ export function ContactForm({
   labels,
 }: {
   email: string;
-  labels: { name: string; message: string; placeholder: string; send: string; note: string };
+  labels: { name: string; message: string; placeholder: string; send: string; note: string; subject: string };
 }) {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const subject = `Portfolio enquiry${name ? ` — ${name}` : ""}`;
+    const subject = `${labels.subject}${name ? ` — ${name}` : ""}`;
     const body = `${message}${name ? `\n\n— ${name}` : ""}`;
     window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }

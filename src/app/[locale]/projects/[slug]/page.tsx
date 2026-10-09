@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { t } from "@/i18n/localize";
+import { t, tl } from "@/i18n/localize";
 import { getProject, projects } from "@/data/projects";
 import { pageMetadata } from "@/lib/seo";
 import { publicFileExists } from "@/lib/assets";
@@ -13,6 +13,13 @@ import { CaseStudy } from "@/components/project/CaseStudy";
 import { JsonLd } from "@/components/seo/JsonLd";
 
 export const dynamicParams = false;
+
+/** Social preview lives next to the project's screenshots (folder names can differ from slugs). */
+function ogImage(project: NonNullable<ReturnType<typeof getProject>>) {
+  const dir = project.coverImage?.src.replace(/\/[^/]+$/, "");
+  const path = dir ? `${dir}/og.jpg` : undefined;
+  return path && publicFileExists(path) ? path : undefined;
+}
 
 export function generateStaticParams() {
   return locales.flatMap((locale) => projects.filter((p) => !p.archived).map((p) => ({ locale, slug: p.slug })));
@@ -29,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     path: `/projects/${slug}`,
     title: t(project.title, locale),
     description: t(project.summary, locale),
-    image: publicFileExists(`/projects/${slug}/og.jpg`) ? `/projects/${slug}/og.jpg` : undefined,
+    image: ogImage(project),
   });
 }
 
@@ -54,7 +61,7 @@ export default async function ProjectPage({ params }: Props) {
               inLanguage: locale,
               author: { "@type": "Person", name: profile.name, url: siteUrl },
               ...(project.year ? { dateCreated: project.year } : {}),
-              ...(project.technologies.length ? { keywords: project.technologies.join(", ") } : {}),
+              ...(project.technologies.length ? { keywords: tl(project.technologies, "en").join(", ") } : {}),
             },
             {
               "@type": "BreadcrumbList",
