@@ -1,1 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#0b0b0c"/><text x="32" y="43" text-anchor="middle" font-family="Georgia, serif" font-size="30" fill="#ff8247">MZ</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="MZ"><rect width="64" height="64" rx="14" fill="#1c1b19"/><path d="M14 46V19l14.5 17L43 19v27" fill="none" stroke="#f5f3ed" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="51" cy="44.5" r="4.2" fill="#ff9a68"/></svg>
