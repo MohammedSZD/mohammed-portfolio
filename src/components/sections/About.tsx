@@ -9,7 +9,7 @@ import { Reveal } from "@/components/ui/Reveal";
 export function About({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const paragraphs = t(profile.summary, locale);
   return (
-    <section id="about" aria-labelledby="about-title" className="border-t border-line py-24 md:py-36">
+    <section id="about" aria-labelledby="about-title" className="border-t border-line py-20 md:py-28">
       <div className="container-x">
         <SectionHeading index="05" id="about-title" eyebrow={dict.about.eyebrow} title={dict.about.title} />
         <div className="grid gap-12 md:grid-cols-12 md:gap-10">
@@ -39,7 +39,7 @@ export function About({ locale, dict }: { locale: Locale; dict: Dictionary }) {
             </div>
             <div>
               <h3 className="eyebrow mb-3">{dict.about.basedIn}</h3>
-              <p className="text-sm">{profile.location}</p>
+              <p className="text-sm">{t(profile.locationLabel, locale)}</p>
             </div>
           </Reveal>
         </div>

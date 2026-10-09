@@ -8,7 +8,7 @@ import { Reveal } from "@/components/ui/Reveal";
 
 export function Education({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
-    <section id="education" aria-labelledby="edu-title" className="border-t border-line bg-surface/50 py-24 md:py-36">
+    <section id="education" aria-labelledby="edu-title" className="border-t border-line bg-surface/50 py-20 md:py-28">
       <div className="container-x">
         <SectionHeading index="06" id="edu-title" eyebrow={dict.education.eyebrow} title={dict.education.title} />
         <div className="grid gap-16 md:grid-cols-2 md:gap-12">
@@ -18,13 +18,13 @@ export function Education({ locale, dict }: { locale: Locale; dict: Dictionary }
               {education.map((e) => (
                 <li key={e.id} className="border-b border-line py-6">
                   <p className="eyebrow mb-2 flex items-center gap-2">
-                    {e.period}
+                    {t(e.periodLabel, locale)}
                     {e.status === "in-progress" && (
                       <span className="rounded-full bg-accent-soft px-2 py-0.5 text-accent">{dict.education.inProgress}</span>
                     )}
                   </p>
                   <p className="font-serif text-2xl leading-tight">{t(e.degree, locale)}</p>
-                  <p className="text-sm text-muted">{e.institution}</p>
+                  <p className="text-sm text-muted">{t(e.institution, locale)}</p>
                   {e.details && (
                     <div className="mt-4">
                       <p className="mb-2 text-xs text-subtle">{t(e.details.title, locale)}</p>

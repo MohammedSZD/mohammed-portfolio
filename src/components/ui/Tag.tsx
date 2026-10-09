@@ -1,6 +1,6 @@
 export function Tag({ children }: { children: React.ReactNode }) {
   return (
-    <li className="rounded-md border border-line px-2.5 py-1 font-mono text-[0.72rem] text-muted">{children}</li>
+    <li dir="auto" className="rounded-md border border-line px-2.5 py-1 font-mono text-[0.72rem] text-muted">{children}</li>
   );
 }
 

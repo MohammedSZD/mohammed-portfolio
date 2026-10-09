@@ -4,7 +4,7 @@ import type { Project } from "@/lib/types";
 import type { Locale } from "@/i18n/config";
 import { localePath } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { t } from "@/i18n/localize";
+import { t, tl } from "@/i18n/localize";
 import { projects } from "@/data/projects";
 import { ProjectMedia } from "@/components/ui/ProjectMedia";
 import { StatusBadge } from "@/components/ui/StatusBadge";
@@ -54,11 +54,14 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
   const galleryItems = (p.gallery ?? [])
     .filter((g) => publicFileExists(g.src))
     .map((g) => ({ src: g.src, alt: t(g.alt, locale), caption: g.caption ? t(g.caption, locale) : undefined, device: g.device ?? ("desktop" as const) }));
-  const links = [...(p.liveUrls ?? []), ...(p.liveUrl ? [{ label: p.liveUrl.replace(/^https?:\/\//, ""), url: p.liveUrl }] : [])];
+  const links = [
+    ...(p.liveUrls ?? []).map((l) => ({ label: t(l.label, locale), url: l.url, latin: false })),
+    ...(p.liveUrl ? [{ label: p.liveUrl.replace(/^https?:\/\//, "").replace(/\/$/, ""), url: p.liveUrl, latin: true }] : []),
+  ];
 
   const meta: { label: string; value: string }[] = [
     p.role && { label: d.role, value: t(p.role, locale) },
-    p.client && { label: d.company, value: p.client },
+    p.client && { label: d.company, value: `\u2066${p.client}\u2069` },
     p.year && { label: d.year, value: p.year },
     { label: d.category, value: t(p.category, locale) },
   ].filter(Boolean) as { label: string; value: string }[];
@@ -72,12 +75,12 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
           <ArrowLeft size={15} aria-hidden /> {d.back}
         </Link>
         <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
-          <div className="lg:col-span-8">
+          <div className="min-w-0 lg:col-span-8">
             <div className="hero-in mb-6 flex flex-wrap items-center gap-4">
               <StatusBadge status={p.status} dict={dict} />
               <span className="eyebrow">{t(p.category, locale)}</span>
             </div>
-            <h1 className="display hero-in text-[clamp(2.6rem,1.2rem+6.2vw,6.2rem)] text-balance" style={{ "--d": "80ms" } as React.CSSProperties}>
+            <h1 className="display hero-in break-words text-[clamp(2.4rem,1.2rem+6.2vw,6.2rem)] text-balance" style={{ "--d": "80ms" } as React.CSSProperties}>
               {t(p.title, locale)}
             </h1>
             {p.tagline && (
@@ -86,14 +89,14 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
               </p>
             )}
           </div>
-          <div className="hero-in lg:col-span-4 lg:pt-3" style={{ "--d": "200ms" } as React.CSSProperties}>
+          <div className="hero-in min-w-0 lg:col-span-4 lg:pt-3" style={{ "--d": "200ms" } as React.CSSProperties}>
             <p className="text-lg text-pretty text-muted">{t(p.summary, locale)}</p>
             {links.length > 0 && (
-              <ul className="mt-6 space-y-2">
+              <ul aria-label={d.links} className="mt-6 space-y-2">
                 {links.map((l) => (
                   <li key={l.url}>
                     <a href={l.url} target="_blank" rel="noopener noreferrer" className="btn w-full justify-between">
-                      <span className="truncate">{l.label}</span>
+                      <span dir={l.latin ? "ltr" : undefined} className="truncate">{l.label}</span>
                       <ArrowUpRight size={16} className="arrow shrink-0" aria-hidden />
                       <span className="sr-only">({dict.a11y.external})</span>
                     </a>
@@ -143,6 +146,9 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
               <p key={para}>{para}</p>
             ))}
           </div>
+          {locale !== "en" && !(p.description as Record<string, unknown>)[locale] && (
+            <p className="mt-6 text-sm text-subtle">{d.english}</p>
+          )}
           {p.statusNote && (
             <p className="mt-8 border-s-2 border-accent bg-accent-soft py-3 ps-4 pe-4 text-sm text-muted">{t(p.statusNote, locale)}</p>
           )}
@@ -234,7 +240,7 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
 
         {p.technologies.length > 0 && (
           <Section id="tech" label={d.technology}>
-            <TagList items={p.technologies} />
+            <TagList items={tl(p.technologies, locale)} />
           </Section>
         )}
 
@@ -261,7 +267,7 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
               {p.architecture.layers.map((layer) => (
                 <li key={layer.label.en} className="grid items-center gap-3 rounded-xl border border-line bg-surface px-5 py-4 sm:grid-cols-[9rem_1fr]">
                   <span className="eyebrow">{t(layer.label, locale)}</span>
-                  <TagList items={layer.items} />
+                  <TagList items={tl(layer.items, locale)} />
                 </li>
               ))}
             </ol>
@@ -270,7 +276,7 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
 
         {galleryItems.length > 0 && (
           <Section id="gallery" label={d.gallery}>
-            <Lightbox items={galleryItems} labels={dict.gallery} />
+            <Lightbox items={galleryItems} labels={{ ...dict.gallery, screenshot: dict.a11y.screenshot }} />
           </Section>
         )}
 
@@ -292,7 +298,7 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
               {related.map((r) => (
                 <li key={r.slug} className="border-b border-line">
                   <Link href={localePath(locale, `/projects/${r.slug}`)} className="group flex items-center justify-between gap-4 py-4">
-                    <span className="font-serif text-2xl leading-tight">{r.shortTitle}</span>
+                    <span className="font-serif text-2xl leading-tight">{t(r.shortTitle, locale)}</span>
                     <span className="flex items-center gap-3">
                       <span className="eyebrow hidden sm:inline">{t(r.category, locale)}</span>
                       <ArrowUpRight size={18} className="arrow-move text-subtle transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" aria-hidden />
@@ -305,19 +311,19 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
         )}
       </div>
 
-      <nav aria-label="Project navigation" className="border-t border-line">
+      <nav aria-label={dict.a11y.projectNav} className="border-t border-line">
         <div className="container-x grid md:grid-cols-2">
           <Link href={localePath(locale, `/projects/${prev.slug}`)} className="group py-10 transition-colors hover:text-accent md:border-e md:border-line md:pe-8">
             <p className="eyebrow mb-3 flex items-center gap-2">
               <ArrowLeft size={14} aria-hidden /> {d.previous}
             </p>
-            <p className="font-serif text-3xl leading-tight">{prev.shortTitle}</p>
+            <p className="font-serif text-3xl leading-tight">{t(prev.shortTitle, locale)}</p>
           </Link>
           <Link href={localePath(locale, `/projects/${next.slug}`)} className="group border-t border-line py-10 transition-colors hover:text-accent md:border-t-0 md:ps-8 md:text-end">
             <p className="eyebrow mb-3 flex items-center gap-2 md:justify-end">
               {d.next} <ArrowRight size={14} aria-hidden />
             </p>
-            <p className="font-serif text-3xl leading-tight">{next.shortTitle}</p>
+            <p className="font-serif text-3xl leading-tight">{t(next.shortTitle, locale)}</p>
           </Link>
         </div>
       </nav>

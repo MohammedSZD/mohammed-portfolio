@@ -16,6 +16,12 @@ function H({ children }: { children: React.ReactNode }) {
   return <h2 className="mb-2 mt-5 border-b border-line pb-1 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-accent">{children}</h2>;
 }
 
+const labels = {
+  en: { profile: "Profile", experience: "Experience", projects: "Selected projects", skills: "Technical skills", developing: "currently developing", education: "Education", certifications: "Certifications", languages: "Languages", inProgress: "in progress" },
+  tr: { profile: "Profil", experience: "Deneyim", projects: "Seçili projeler", skills: "Teknik beceriler", developing: "gelişim aşamasında", education: "Eğitim", certifications: "Sertifikalar", languages: "Diller", inProgress: "devam ediyor" },
+  ar: { profile: "نبذة", experience: "الخبرة", projects: "مشاريع مختارة", skills: "المهارات التقنية", developing: "قيد التطوير حاليًا", education: "التعليم", certifications: "الشهادات", languages: "اللغات", inProgress: "قيد الدراسة" },
+} as const;
+
 const strip = (u: string) => u.replace(/^https?:\/\//, "");
 
 /**
@@ -27,27 +33,28 @@ export default async function ResumePage({ params }: { params: Promise<{ locale:
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const featured = projects.filter((p) => p.featured && !p.archived);
+  const L = labels[locale];
 
   return (
     <div className="resume mx-auto max-w-[52rem] px-6 pb-16 pt-24 text-[0.82rem] leading-[1.45] print:max-w-none print:p-0">
       <header className="mb-3">
-        <h1 className="font-serif text-4xl leading-none">{profile.name}</h1>
+        <h1 className="font-serif text-4xl leading-tight">{t(profile.displayName, locale)}</h1>
         <p className="mt-1 text-base text-muted">{t(profile.headline, locale)} · {t(profile.positioning, locale)[3]}</p>
         <p className="mt-2 text-muted">
-          {profile.location} · {profile.email} · {strip(profile.github)} · {strip(profile.linkedin)}
+          {t(profile.locationLabel, locale)} · {profile.email} · {strip(profile.github)} · {strip(profile.linkedin)}
         </p>
       </header>
 
-      <H>Profile</H>
+      <H>{L.profile}</H>
       <p>{t(profile.summary, locale).slice(0, 2).join(" ")}</p>
 
-      <H>Experience</H>
+      <H>{L.experience}</H>
       <div className="space-y-3">
         {experience.map((e) => (
           <section key={e.id} className="break-inside-avoid">
             <div className="flex items-baseline justify-between gap-4">
               <h3 className="font-semibold">
-                {e.company} <span className="font-normal text-muted">— {t(e.role, locale)}</span>
+                {typeof e.company === "string" ? e.company : t(e.company, locale)} <span className="font-normal text-muted">— {t(e.role, locale)}</span>
               </h3>
               <span className="shrink-0 font-mono text-[0.7rem] text-subtle">{t(e.period, locale)}</span>
             </div>
@@ -60,45 +67,45 @@ export default async function ResumePage({ params }: { params: Promise<{ locale:
         ))}
       </div>
 
-      <H>Selected projects</H>
+      <H>{L.projects}</H>
       <ul className="space-y-1.5">
         {featured.map((p) => {
           const link = p.liveUrl ?? p.liveUrls?.[0]?.url;
           return (
             <li key={p.slug} className="break-inside-avoid">
-              <span className="font-semibold">{p.shortTitle}</span> <span className="text-subtle">({t(p.category, locale)})</span> — <span className="text-muted">{t(p.summary, locale)}</span>
+              <span className="font-semibold">{t(p.shortTitle, locale)}</span> <span className="text-subtle">({t(p.category, locale)})</span> — <span className="text-muted">{t(p.summary, locale)}</span>
               {link && <span className="font-mono text-[0.7rem] text-subtle"> {strip(link)}</span>}
             </li>
           );
         })}
       </ul>
 
-      <H>Technical skills</H>
+      <H>{L.skills}</H>
       <dl className="space-y-0.5">
         {skills.map((g) => (
           <div key={g.id} className="flex gap-2">
             <dt className="w-36 shrink-0 font-semibold">{t(g.title, locale)}{g.developing ? " *" : ""}</dt>
-            <dd className="text-muted">{g.items.join(", ")}</dd>
+            <dd className="text-muted">{g.items.map((i) => (typeof i === "string" ? i : t(i, locale))).join(locale === "ar" ? "، " : ", ")}</dd>
           </div>
         ))}
       </dl>
-      <p className="mt-1 text-[0.7rem] text-subtle">* currently developing</p>
+      <p className="mt-1 text-[0.7rem] text-subtle">* {L.developing}</p>
 
       <div className="grid gap-x-8 sm:grid-cols-2 print:grid-cols-2">
         <div>
-          <H>Education</H>
+          <H>{L.education}</H>
           <ul className="space-y-1.5">
             {education.map((e) => (
               <li key={e.id}>
                 <span className="font-semibold">{t(e.degree, locale)}</span>
-                <span className="text-muted"> — {e.institution}</span>
-                <span className="block font-mono text-[0.7rem] text-subtle">{e.period}{e.status === "in-progress" ? " · in progress" : ""}</span>
+                <span className="text-muted"> — {t(e.institution, locale)}</span>
+                <span className="block font-mono text-[0.7rem] text-subtle">{t(e.periodLabel, locale)}{e.status === "in-progress" ? ` · ${L.inProgress}` : ""}</span>
               </li>
             ))}
           </ul>
         </div>
         <div>
-          <H>Certifications</H>
+          <H>{L.certifications}</H>
           <ul className="space-y-1">
             {certifications.map((c) => (
               <li key={c.id}>
@@ -107,7 +114,7 @@ export default async function ResumePage({ params }: { params: Promise<{ locale:
               </li>
             ))}
           </ul>
-          <H>Languages</H>
+          <H>{L.languages}</H>
           <p className="text-muted">{languages.map((l) => `${t(l.name, locale)} (${t(l.level, locale)})`).join(" · ")}</p>
         </div>
       </div>

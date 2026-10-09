@@ -32,6 +32,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               "@id": `${siteUrl}/#person`,
               name: profile.name,
               jobTitle: t(profile.headline, locale),
+              alternateName: profile.displayName.ar,
               url: siteUrl,
               email: `mailto:${profile.email}`,
               address: { "@type": "PostalAddress", addressCountry: "TR" },

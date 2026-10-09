@@ -19,6 +19,7 @@ export interface LightboxLabels {
   desktop: string;
   mobile: string;
   of: string;
+  screenshot: string;
 }
 
 const SIZES = { desktop: { w: 1920, h: 1200 }, mobile: { w: 780, h: 1688 } } as const;
@@ -91,7 +92,7 @@ export function Lightbox({ items, labels }: { items: LightboxItem[]; labels: Lig
         ref={ref}
         onClose={() => setIndex(null)}
         onClick={(e) => e.target === ref.current && close()}
-        aria-label={current?.caption ?? current?.alt ?? "Screenshot"}
+        aria-label={current?.caption ?? current?.alt ?? labels.screenshot}
         className="m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 backdrop:bg-black/90"
       >
         {current && (
@@ -115,10 +116,10 @@ export function Lightbox({ items, labels }: { items: LightboxItem[]; labels: Lig
             {items.length > 1 && (
               <>
                 <button type="button" onClick={() => step(-1)} aria-label={labels.previous} className="absolute start-3 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white/15 text-white hover:bg-white/30">
-                  <ChevronLeft size={22} aria-hidden className="rtl:rotate-180" />
+                  <ChevronLeft size={22} aria-hidden />
                 </button>
                 <button type="button" onClick={() => step(1)} aria-label={labels.next} className="absolute end-3 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white/15 text-white hover:bg-white/30">
-                  <ChevronRight size={22} aria-hidden className="rtl:rotate-180" />
+                  <ChevronRight size={22} aria-hidden />
                 </button>
               </>
             )}

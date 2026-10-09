@@ -18,6 +18,11 @@ export const tr: Dictionary = {
     switchToDark: "Koyu temaya geç",
     external: "yeni sekmede açılır",
     home: "Ana sayfa",
+    summary: "Özet",
+    footerNav: "Alt bilgi gezinmesi",
+    projectNav: "Proje gezinmesi",
+    screenshot: "Ekran görüntüsü",
+    projectLinks: "Proje bağlantıları",
   },
   nav: { work: "Çalışmalar", services: "Hizmetler", experience: "Deneyim", capabilities: "Yetenekler", about: "Hakkımda", contact: "İletişim" },
   hero: {
@@ -26,6 +31,7 @@ export const tr: Dictionary = {
     downloadCv: "CV indir",
     scroll: "Kaydır",
     available: "Türkiye'de yaşıyorum",
+    roles: "Roller",
   },
   status: {
     production: "Üretimde",
@@ -35,6 +41,7 @@ export const tr: Dictionary = {
     experiment: "Deney",
     personal: "Kişisel proje",
     demo: "Demo proje",
+    functional: "Çalışıyor · özel",
   },
   visibility: {
     public: "Herkese açık",
@@ -64,8 +71,9 @@ export const tr: Dictionary = {
   services: {
     eyebrow: "Hizmetler",
     title: "Sizin için neler geliştirebilirim",
-    intro: "Mühendislik rolümün yanında seçili freelance projelere açığım.",
+    intro: "Her biri açabileceğiniz gerçek işlerle desteklenen yedi odaklı hizmet. Mühendislik rolümün yanında seçili freelance projelere açığım.",
     cta: "Bir projeyi konuşalım",
+    examples: "Örnekler",
   },
   compare: {
     eyebrow: "Öne çıkan vaka çalışması",
@@ -81,9 +89,17 @@ export const tr: Dictionary = {
     intro: "Üzerinde çalıştığım ürün ve platformlardan bazıları — her biri bağlamı, mühendisliği ve dürüst bir durum bilgisiyle.",
     viewCase: "Vaka çalışmasını gör",
     allProjects: "Tüm projeler",
-    clientEyebrow: "Profesyonel web projeleri",
-    clientTitle: "Müşteri ve profesyonel web siteleri",
-    clientIntro: "İşletmeler için yayına alınmış web siteleri ve web entegrasyonları.",
+    flagshipEyebrow: "Seçili çalışmalar",
+    flagshipTitle: "Geliştirdiğim sistemler ve ürünler",
+    flagshipIntro: "Mühendislik derinliğimi gösteren iki sistem — veri modelleme, erişim denetimi ve operasyon yazılımı — her biri dürüst bir durum bilgisiyle.",
+    moreEyebrow: "Daha fazlası",
+    moreTitle: "Vitrinler, platformlar ve otomasyon",
+    moreIntro: "Demolar, devam eden işler ve kişisel çalışmalar; ne olduklarıyla etiketlendi.",
+    highlights: "Mühendislik öne çıkanları",
+    browseAll: "Tüm projelere ve filtrelere göz at",
+    clientEyebrow: "Müşteri işleri",
+    clientTitle: "Gerçek işletmeler için canlı web siteleri",
+    clientIntro: "Seyahat ve sağlık alanında müşterilere teslim edilen, iletişim kanalları entegre iki dilli ve duyarlı siteler.",
     visit: "Siteyi ziyaret et",
     gallerySection: "Projeler",
     galleryTitle: "Seçili projeler ve vaka çalışmaları",
@@ -142,6 +158,7 @@ export const tr: Dictionary = {
     messageLabel: "Mesaj",
     messagePlaceholder: "Üzerinde çalıştığınız konu hakkında birkaç satır…",
     send: "E-posta oluştur",
+    subject: "Portfolyo talebi",
     formNote: "Bu, mesajı önceden doldurulmuş olarak e-posta uygulamanızda açar. Bu sayfadan hiçbir şey gönderilmez.",
     location: "Konum",
     elsewhere: "Diğer",
@@ -149,6 +166,7 @@ export const tr: Dictionary = {
   footer: {
     rights: "Tüm hakları saklıdır.",
     built: "Next.js ile tasarlandı ve geliştirildi.",
+    tagline: "Üretime hazır yazılım, baştan sona.",
     top: "Yukarı çık",
   },
   projectPage: {
@@ -183,6 +201,7 @@ export const tr: Dictionary = {
     illustrative: "Açıklayıcı yer tutucu",
     confidentialArt: "Çizim · gizli sistem",
     metrics: "Bir bakışta",
+    english: "Bu projenin ayrıntılı anlatımı yalnızca İngilizce sunulmaktadır; yukarıdaki özet çevrilmiştir.",
   },
   notFound: {
     title: "Sayfa bulunamadı",

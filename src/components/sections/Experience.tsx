@@ -11,7 +11,7 @@ export function Experience({ locale, dict }: { locale: Locale; dict: Dictionary 
   const compact = experience.filter((e) => e.emphasis === "compact");
 
   return (
-    <section id="experience" aria-labelledby="exp-title" className="border-t border-line py-24 md:py-36">
+    <section id="experience" aria-labelledby="exp-title" className="border-t border-line py-20 md:py-28">
       <div className="container-x">
         <SectionHeading index="03" id="exp-title" eyebrow={dict.experience.eyebrow} title={dict.experience.title} />
 
@@ -23,7 +23,7 @@ export function Experience({ locale, dict }: { locale: Locale; dict: Dictionary 
                   {e.current && <span className="rounded-full bg-accent-soft px-2 py-0.5 text-accent">{dict.experience.current}</span>}
                   {t(e.period, locale)}
                 </p>
-                <h3 className="font-serif text-[clamp(2rem,1.4rem+2vw,3rem)] leading-[1.05]">{e.company}</h3>
+                <h3 className="font-serif text-[clamp(2rem,1.4rem+2vw,3rem)] leading-[1.05]"><bdi dir={typeof e.company === "string" ? "ltr" : undefined}>{typeof e.company === "string" ? e.company : t(e.company, locale)}</bdi></h3>
                 <p className="mt-2 text-lg text-muted">{t(e.role, locale)}</p>
                 {e.tags && <TagList items={e.tags} className="mt-6" />}
               </header>
@@ -58,7 +58,7 @@ export function Experience({ locale, dict }: { locale: Locale; dict: Dictionary 
                     {e.current && <span className="ms-2 text-accent">● {dict.experience.current}</span>}
                   </p>
                   <div className="md:col-span-4">
-                    <h3 className="font-serif text-2xl leading-tight">{e.company}</h3>
+                    <h3 className="font-serif text-2xl leading-tight"><bdi dir={typeof e.company === "string" ? "ltr" : undefined}>{typeof e.company === "string" ? e.company : t(e.company, locale)}</bdi></h3>
                     <p className="text-sm text-muted">{t(e.role, locale)}</p>
                   </div>
                   <ul className="space-y-1.5 text-sm text-muted md:col-span-5">

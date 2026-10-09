@@ -9,7 +9,7 @@ import { Reveal } from "@/components/ui/Reveal";
 
 export function Labs({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
-    <section id="labs" aria-labelledby="labs-title" className="border-t border-line py-24 md:py-32">
+    <section id="labs" aria-labelledby="labs-title" className="border-t border-line py-20 md:py-28">
       <div className="container-x">
         <SectionHeading
           index="07"
