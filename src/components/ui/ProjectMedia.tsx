@@ -34,7 +34,7 @@ export function ProjectMedia({
   return (
     <div className={`relative aspect-[16/10] overflow-hidden rounded-xl border border-line bg-surface-2 ${className}`}>
       {hasImage ? (
-        <Image src={image.src} alt={t(image.alt, locale)} fill sizes={sizes} priority={priority} className="object-cover" />
+        <Image src={image.src} alt={t(image.alt, locale)} fill sizes={sizes} priority={priority} className="object-cover" style={image.focus ? { objectPosition: image.focus } : undefined} />
       ) : (
         <>
           <PlaceholderArt visual={visual} />

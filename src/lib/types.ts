@@ -44,10 +44,28 @@ export type PlaceholderVisual =
 export interface ProjectImage {
   /** Path inside /public, e.g. "/projects/medmar/cover.webp". */
   src: string;
-  /** "mobile" screenshots are 780×1688, "desktop" (default) 1920×1200. */
+  /** "mobile" screenshots are phone-shaped (≈9:19.5), "desktop" (default) landscape. */
   device?: "desktop" | "mobile";
   alt: LText;
   caption?: LText;
+  /** Longer explanation shown in the lightbox and under thumbnails of categorized galleries. */
+  description?: LText;
+  /** Gallery group id (see `Project.galleryGroups`). */
+  category?: string;
+  /** Natural pixel size; lets the gallery reserve space and show tall captures without cropping. */
+  width?: number;
+  height?: number;
+  /** "full" = tall full-page capture, shown in a scrollable viewer instead of being cropped. */
+  kind?: "viewport" | "full";
+  /** CSS object-position used when the image is cropped (e.g. "top"). */
+  focus?: string;
+  /** Whose module the screen belongs to (MEDMAR): "personal" = built by me, "shared" = wider platform. */
+  ownership?: "personal" | "shared";
+}
+
+export interface ContributionItem {
+  title: LText;
+  body?: LText;
 }
 
 export interface Project {
@@ -76,7 +94,7 @@ export interface Project {
   responsibilities?: LList;
   challenges?: LList;
   solutions?: LList;
-  keyFeatures?: { title: LText; description?: LText; state?: "live" | "in-progress" | "planned" }[];
+  keyFeatures?: { title: LText; description?: LText; state?: "live" | "in-progress" | "planned"; ownership?: "personal" | "shared" }[];
   engineeringDecisions?: { title: LText; body: LText }[];
   outcomes?: LList;
   coverImage?: ProjectImage;
@@ -100,6 +118,21 @@ export interface Project {
     before: ProjectImage & { label: LText };
     after: ProjectImage & { label: LText };
   };
+  /** Business context and objectives (case studies). */
+  context?: LList;
+  objectives?: LList;
+  /** Honest split between modules I built and the wider team/platform. */
+  contribution?: { personal: ContributionItem[]; shared: ContributionItem[]; note?: LText };
+  /** Mobile and responsive behaviour. */
+  responsive?: LList;
+  /** Implemented vs. possible future work, plus things deliberately not claimed. */
+  scope?: { future: LList; limits: LList };
+  /** Categorized screenshot gallery: group definitions (images reference them via `category`). */
+  galleryGroups?: { id: string; title: LText; intro?: LText }[];
+  /** Image paths (from `gallery`) curated for the highlights strip near the top. */
+  highlights?: string[];
+  /** Explains where screenshots come from and how they were sanitised. */
+  screenshotNote?: LText;
   /** Slugs of related projects. */
   related?: string[];
   visual: PlaceholderVisual;

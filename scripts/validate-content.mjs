@@ -52,6 +52,41 @@ for (const p of projects) {
 }
 for (const l of labs) if (l.repositoryUrl && !/^https:\/\/github\.com\//.test(l.repositoryUrl)) errors.push(`lab "${l.repo}": repositoryUrl must be a github.com https URL`);
 
+/* ── Case-study galleries: files, dimensions, categories, highlights, orphans; public-copy guard rails. ── */
+const BANNED_TOOLS = /\b(claude|anthropic|v0|chatgpt|openai|copilot|cursor|vibe[- ]cod\w*|ai[- ]generated|ai coding)\b/i;
+const BANNED_NAMES = /(aydemir|akg[uü][cç]|demirel)/i; // personal names that appeared in source material
+const referenced = new Set();
+for (const p of projects) {
+  for (const img of p.gallery ?? []) referenced.add(img.src);
+  if (p.coverImage) referenced.add(p.coverImage.src);
+  if (!p.galleryGroups) continue;
+  const at = `project "${p.slug}"`;
+  const ids = new Set(p.galleryGroups.map((g) => g.id));
+  for (const img of p.gallery ?? []) {
+    if (!exists(img.src)) errors.push(`${at}: gallery image missing on disk: ${img.src}`);
+    if (!img.width || !img.height) errors.push(`${at}: gallery image has no dimensions: ${img.src}`);
+    if (!ids.has(img.category)) errors.push(`${at}: gallery image has unknown category "${img.category}": ${img.src}`);
+    if (!img.description?.en) errors.push(`${at}: gallery image has no description: ${img.src}`);
+  }
+  const srcs = new Set((p.gallery ?? []).map((g) => g.src));
+  for (const h of p.highlights ?? []) if (!srcs.has(h)) errors.push(`${at}: highlight is not in the gallery: ${h}`);
+  for (const g of p.galleryGroups) if (!(p.gallery ?? []).some((i) => i.category === g.id)) errors.push(`${at}: gallery group "${g.id}" has no images`);
+  const dups = (p.gallery ?? []).map((g) => g.src).filter((x, i, arr) => arr.indexOf(x) !== i);
+  if (dups.length) errors.push(`${at}: duplicate gallery images: ${dups.join(", ")}`);
+  // every file shipped for this project must be used (no stray or unreviewed screenshots in /public)
+  const dir = path.join("public", "projects", p.slug);
+  if (fs.existsSync(dir))
+    for (const f of fs.readdirSync(dir)) if (f.endsWith(".webp") && !referenced.has(`/projects/${p.slug}/${f}`)) errors.push(`${at}: unreferenced image in public: ${f}`);
+  notes.push(`${p.slug}: ${(p.gallery ?? []).length} categorized screenshots`);
+}
+for (const slug of ["medmar", "salti"]) {
+  const p = projects.find((x) => x.slug === slug);
+  if (!p) { errors.push(`case study "${slug}" is missing`); continue; }
+  const text = JSON.stringify(p);
+  if (BANNED_TOOLS.test(text)) errors.push(`project "${slug}": public copy mentions a development tool (${text.match(BANNED_TOOLS)[0]})`);
+  if (BANNED_NAMES.test(text)) errors.push(`project "${slug}": public copy contains a personal name from the source material`);
+}
+
 /* ── Arabic coverage: every localized value ({ en, … }) must also have `ar`. ── */
 const isEmptyL = (v) => v == null || v === "" || (Array.isArray(v) && v.length === 0);
 function walk(node, where, visit) {

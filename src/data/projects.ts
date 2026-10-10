@@ -1,5 +1,7 @@
 import type { Project } from "@/lib/types";
 import { trProjects } from "./projects.tr.ts";
+import { medmar } from "./case-studies/medmar.ts";
+import { salti } from "./case-studies/salti.ts";
 
 /**
  * All case-study content lives here. Display order = priority order: technical depth and
@@ -11,169 +13,8 @@ import { trProjects } from "./projects.tr.ts";
  */
 export const projects: Project[] = [
   /* ───────────────────────── FLAGSHIP SYSTEMS ───────────────────────── */
-  {
-    slug: "medmar",
-    categories: ["internal-systems", "web-applications"],
-    title: { en: "MEDMAR — Factory Management System", ar: "MEDMAR — نظام إدارة المصنع" },
-    shortTitle: { en: "MEDMAR", ar: "MEDMAR" },
-    category: { en: "Industrial Software / Internal Platform", tr: "Endüstriyel Yazılım / Kurum İçi Platform", ar: "برمجيات صناعية / منصة داخلية" },
-    summary: {
-      en: "An internal Laravel platform that models a factory's physical assets and runs its maintenance operations — from asset hierarchy and work orders to preventive schedules and mobile reporting for floor staff.",
-      tr: "Bir fabrikanın fiziksel varlıklarını modelleyen ve bakım operasyonlarını yürüten kurum içi Laravel platformu — varlık hiyerarşisinden iş emirlerine, önleyici bakım planlarından saha personeli için mobil raporlamaya.",
-      ar: "منصة داخلية مبنية على Laravel تمثّل أصول المصنع المادية وتدير عمليات صيانته — من هرم الأصول وأوامر العمل إلى جداول الصيانة الوقائية والتقارير عبر الجوال لعاملي الأرضية.",
-    },
-    description: {
-      en: [
-        "MEDMAR is the internal factory management platform at Med-Mar Tuz San. Tic. A.Ş. I contributed major development as R&D Software Engineer, delivering its core modules during an eight-week sprint in May–June 2026.",
-        "The platform represents the plant as a single asset hierarchy and builds maintenance operations on top of it: work orders, preventive schedules, spare-parts and cost tracking, and mobile-first reporting for the people on the factory floor.",
-      ],
-      ar: [
-        "MEDMAR هي منصة إدارة المصنع الداخلية في شركة Med-Mar Tuz San. Tic. A.Ş. ساهمت في تطويرها بشكل رئيسي بصفتي مهندس برمجيات للبحث والتطوير، وسلّمت وحداتها الأساسية خلال سبرنت مدته ثمانية أسابيع بين مايو ويونيو 2026.",
-        "تمثّل المنصة المصنع كهرم أصول واحد وتبني فوقه عمليات الصيانة: أوامر العمل والجداول الوقائية وتتبع قطع الغيار والتكاليف، وتقارير مصممة للجوال أولًا لمن يعملون في أرضية المصنع.",
-      ],
-    },
-    status: "production",
-    statusNote: {
-      en: "Internal company system in production use at Med-Mar. Not publicly accessible.",
-      ar: "نظام داخلي للشركة قيد الاستخدام الفعلي في Med-Mar. غير متاح للعموم.",
-    },
-    year: "2026",
-    role: { en: "R&D Software Engineer · Full-Stack Development", ar: "مهندس برمجيات للبحث والتطوير · تطوير Full-Stack" },
-    client: "Med-Mar Tuz San. Tic. A.Ş.",
-    featured: true,
-    technologies: ["Laravel", "PHP", "MySQL", "JavaScript", "Bootstrap", "Axios / AJAX", "PWA concepts"],
-    responsibilities: {
-      en: [
-        "Designed and built core platform modules end to end — database, backend, and interface",
-        "Modelled the asset hierarchy and its audit trail",
-        "Built work-order and preventive-maintenance workflows",
-        "Implemented role-based access control and mobile-first interfaces",
-      ],
-      ar: [
-        "صممت وبنيت الوحدات الأساسية للمنصة من البداية إلى النهاية — قاعدة البيانات والخلفية والواجهة",
-        "نمذجت هرم الأصول وسجل التدقيق الخاص به",
-        "بنيت مسارات أوامر الصيانة والصيانة الوقائية",
-        "طبقت ضبط الصلاحيات حسب الأدوار وواجهات مصممة للجوال أولًا",
-      ],
-    },
-    challenges: {
-      en: [
-        "Represent a plant's equipment — from the whole factory down to sub-parts — in one consistent, navigable structure.",
-        "Different categories of equipment need different data, without a new screen or schema for each.",
-        "Keep a trustworthy history of what changed and where equipment moved.",
-        "Let factory staff report and document work from the floor, on their phones.",
-        "Schedule recurring preventive maintenance across very different cadences.",
-      ],
-      ar: [
-        "تمثيل معدات المصنع — من المصنع كله إلى القطع الفرعية — في بنية واحدة متسقة يسهل التنقل فيها.",
-        "تحتاج فئات المعدات المختلفة إلى بيانات مختلفة، دون شاشة أو مخطط جديد لكل فئة.",
-        "الحفاظ على سجل موثوق لما تغيّر وأين انتقلت المعدات.",
-        "تمكين عاملي المصنع من الإبلاغ وتوثيق العمل من الأرضية عبر هواتفهم.",
-        "جدولة الصيانة الوقائية المتكررة على فترات متباينة جدًا.",
-      ],
-    },
-    solutions: {
-      en: [
-        "A self-referencing hierarchy — Factory → Unit → Section → Machine → Part → Sub-part — with dynamic, category-driven custom attributes.",
-        "Change and movement audit logging, plus file and image attachments on assets.",
-        "Work orders linked to machines, locations and personnel, with photo documentation and mobile-first reporting.",
-        "A preventive-maintenance scheduler with six recurrence intervals, checklists, reminders and reusable templates.",
-      ],
-      ar: [
-        "تسلسل هرمي ذاتي الإحالة — مصنع ← وحدة ← قسم ← آلة ← قطعة ← قطعة فرعية — مع خصائص مخصصة ديناميكية تحددها فئة المعدّة.",
-        "سجل تدقيق للتغييرات والتنقلات، إضافةً إلى مرفقات الملفات والصور على الأصول.",
-        "أوامر عمل مرتبطة بالآلات والمواقع والعاملين، مع توثيق بالصور وتقارير للجوال أولًا.",
-        "جدولة للصيانة الوقائية بستة فواصل تكرار وقوائم تحقق وتذكيرات وقوالب قابلة لإعادة الاستخدام.",
-      ],
-    },
-    keyFeatures: [
-      { title: { en: "Asset hierarchy", ar: "هرم الأصول" }, description: { en: "Six-level, self-referencing structure with category-driven custom attributes.", ar: "بنية من ستة مستويات ذاتية الإحالة مع خصائص مخصصة تحددها الفئة." } },
-      { title: { en: "Audit logging", ar: "سجل التدقيق" }, description: { en: "Change and movement history for every asset.", ar: "سجل للتغييرات والتنقلات لكل أصل." } },
-      { title: { en: "Maintenance work orders", ar: "أوامر الصيانة" }, description: { en: "Jobs linked to machines, locations and personnel, with photo documentation.", ar: "أعمال مرتبطة بالآلات والمواقع والعاملين مع توثيق بالصور." } },
-      { title: { en: "Cost & spare-parts tracking", ar: "تتبع التكاليف وقطع الغيار" }, description: { en: "Costs and parts recorded against maintenance work.", ar: "تسجيل التكاليف والقطع على أعمال الصيانة." } },
-      { title: { en: "Preventive maintenance", ar: "الصيانة الوقائية" }, description: { en: "Daily, weekly, monthly, quarterly, biannual and annual recurrence with checklists and reminders.", ar: "تكرار يومي وأسبوعي وشهري وربع سنوي ونصف سنوي وسنوي مع قوائم تحقق وتذكيرات." } },
-      { title: { en: "Reusable templates", ar: "قوالب قابلة لإعادة الاستخدام" }, description: { en: "Maintenance templates and historical logs.", ar: "قوالب صيانة وسجلات تاريخية." } },
-      { title: { en: "Personnel assignment & search", ar: "إسناد العاملين والبحث" } },
-      { title: { en: "Mobile-first reporting", ar: "تقارير للجوال أولًا" }, description: { en: "Designed for factory staff reporting from the floor.", ar: "مصممة لعاملي المصنع الذين يبلّغون من الأرضية." } },
-      { title: { en: "Role-based access control", ar: "ضبط الصلاحيات حسب الأدوار" }, description: { en: "Middleware-based RBAC.", ar: "RBAC مطبّق عبر الـ middleware." } },
-    ],
-    engineeringDecisions: [
-      {
-        title: { en: "One self-referencing hierarchy", ar: "تسلسل هرمي واحد ذاتي الإحالة" },
-        body: {
-          en: "A single self-referencing structure models every level from factory to sub-part, so depth is a property of the data rather than of separate screens.",
-          ar: "بنية واحدة ذاتية الإحالة تمثّل كل المستويات من المصنع إلى القطعة الفرعية، فيصبح العمق خاصية في البيانات لا في شاشات منفصلة.",
-        },
-      },
-      {
-        title: { en: "Dynamic, category-driven attributes", ar: "خصائص ديناميكية تحددها الفئة" },
-        body: {
-          en: "Attributes are defined per equipment category, so different kinds of assets can carry different information.",
-          ar: "تُعرَّف الخصائص لكل فئة معدّات، فتحمل أنواع الأصول المختلفة معلومات مختلفة.",
-        },
-      },
-      {
-        title: { en: "Audit trail by design", ar: "سجل تدقيق من أساس التصميم" },
-        body: {
-          en: "Changes and movements are logged, giving maintenance history a reliable source.",
-          ar: "تُسجَّل التغييرات والتنقلات، فيكون لتاريخ الصيانة مصدر موثوق.",
-        },
-      },
-      {
-        title: { en: "Fast, responsive interfaces", ar: "واجهات سريعة ومتجاوبة" },
-        body: {
-          en: "Laravel caching and Axios/AJAX asynchronous fetching, in mobile-first responsive views.",
-          ar: "تخزين مؤقت في Laravel وجلب غير متزامن عبر Axios/AJAX، ضمن واجهات متجاوبة للجوال أولًا.",
-        },
-      },
-      {
-        title: { en: "Access control in middleware", ar: "ضبط الصلاحيات في الـ middleware" },
-        body: {
-          en: "Role-based access control is enforced at the middleware layer.",
-          ar: "يُطبَّق ضبط الصلاحيات حسب الأدوار على مستوى طبقة الـ middleware.",
-        },
-      },
-    ],
-    metrics: [
-      { value: "40+", label: { en: "database migrations", ar: "عملية ترحيل لقاعدة البيانات" } },
-      { value: "15+", label: { en: "new views & interfaces", ar: "واجهة وعرضًا جديدًا" } },
-      { value: "8", label: { en: "week sprint, May–June 2026", ar: "أسابيع سبرنت، مايو–يونيو 2026" } },
-      { value: "6", label: { en: "asset hierarchy levels", ar: "مستويات في هرم الأصول" } },
-    ],
-    architecture: {
-      summary: { en: "High-level overview only. Internal structure is confidential.", ar: "نظرة عامة عالية المستوى فقط. البنية الداخلية سرية." },
-      layers: [
-        { label: { en: "Interface", ar: "الواجهة" }, items: ["Bootstrap", { en: "Mobile-first views", ar: "عروض للجوال أولًا" }, "PWA concepts"] },
-        { label: { en: "Client logic", ar: "منطق العميل" }, items: ["JavaScript", "Axios / AJAX"] },
-        { label: { en: "Application", ar: "التطبيق" }, items: ["Laravel", "PHP", { en: "Middleware RBAC", ar: "RBAC عبر الـ middleware" }, { en: "Laravel caching", ar: "التخزين المؤقت في Laravel" }] },
-        { label: { en: "Data", ar: "البيانات" }, items: ["MySQL", { en: "Audit logging", ar: "سجل التدقيق" }] },
-      ],
-    },
-    outcomes: {
-      en: [
-        "Core platform modules delivered within an eight-week sprint (May–June 2026).",
-        "Used internally at Med-Mar — source code, data and internal URLs are intentionally not shown.",
-      ],
-      ar: [
-        "سُلّمت الوحدات الأساسية للمنصة خلال سبرنت مدته ثمانية أسابيع (مايو–يونيو 2026).",
-        "تُستخدم داخليًا في Med-Mar — لا تُعرض الشيفرة المصدرية ولا البيانات ولا الروابط الداخلية عن قصد.",
-      ],
-    },
-    visibility: "confidential",
-    confidentialityNote: {
-      en: "This is a confidential internal company system. Source code, credentials, database structure, employee data and internal URLs are not shared. Any imagery on this page is illustrative or sanitised.",
-      ar: "هذا نظام داخلي سري للشركة. لا تُشارك الشيفرة المصدرية ولا بيانات الاعتماد ولا بنية قاعدة البيانات ولا بيانات الموظفين ولا الروابط الداخلية. أي صور في هذه الصفحة توضيحية أو منقّحة.",
-    },
-    coverImage: { src: "/projects/medmar/cover.webp", alt: { en: "MEDMAR factory management system — interface overview", ar: "نظام MEDMAR لإدارة المصنع — نظرة عامة على الواجهة" } },
-    gallery: [
-      { src: "/projects/medmar/01.webp", alt: { en: "MEDMAR asset hierarchy view", ar: "عرض هرم الأصول في MEDMAR" }, caption: { en: "Asset hierarchy", ar: "هرم الأصول" } },
-      { src: "/projects/medmar/02.webp", alt: { en: "MEDMAR maintenance work order view", ar: "عرض أوامر الصيانة في MEDMAR" }, caption: { en: "Maintenance work orders", ar: "أوامر الصيانة" } },
-      { src: "/projects/medmar/03.webp", alt: { en: "MEDMAR preventive maintenance scheduling", ar: "جدولة الصيانة الوقائية في MEDMAR" }, caption: { en: "Preventive maintenance scheduling", ar: "جدولة الصيانة الوقائية" } },
-      { src: "/projects/medmar/04.webp", alt: { en: "MEDMAR mobile reporting", ar: "التقارير عبر الجوال في MEDMAR" }, caption: { en: "Mobile-first reporting", ar: "تقارير للجوال أولًا" } },
-    ],
-    related: ["topfan-os", "lale"],
-    visual: "hierarchy",
-  },
+  medmar,
+  salti,
   {
     slug: "topfan-os",
     categories: ["internal-systems", "web-applications"],
@@ -883,7 +724,7 @@ export const projects: Project[] = [
       { src: "/projects/galaxs-team/m-01-hero.webp", device: "mobile", alt: { en: "Galaxs Team hero on mobile", ar: "واجهة Galaxs Team على الجوال" }, caption: { en: "Mobile — hero", ar: "الجوال — الواجهة" } },
       { src: "/projects/galaxs-team/m-02-services.webp", device: "mobile", alt: { en: "Services on mobile", ar: "الخدمات على الجوال" }, caption: { en: "Mobile — services", ar: "الجوال — الخدمات" } },
     ],
-    related: ["restaurant-website", "podoclinic"],
+    related: ["salti", "restaurant-website"],
     visual: "website",
   },
   {
