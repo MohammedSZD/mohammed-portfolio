@@ -8,6 +8,7 @@ import { isLocale, localeDirection, localeLabels, locales } from "@/i18n/config"
 import { getDictionary } from "@/i18n/dictionaries";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { ThemeSync } from "@/components/layout/ThemeSync";
 import { siteUrl } from "@/lib/site";
 import { profile } from "@/data/profile";
 import { pageMetadata } from "@/lib/seo";
@@ -88,7 +89,6 @@ export default async function LocaleLayout({
       lang={localeLabels[locale].htmlLang}
       dir={localeDirection[locale]}
       className={`${GeistSans.variable} ${GeistMono.variable} ${serif.variable} ${arabicSans.variable} ${arabicSerif.variable}`}
-      data-theme="dark"
       suppressHydrationWarning
     >
       <head>
@@ -101,6 +101,7 @@ export default async function LocaleLayout({
         >
           {dict.a11y.skip}
         </a>
+        <ThemeSync />
         <Header locale={locale} dict={dict} />
         <main id="main">{children}</main>
         <Footer locale={locale} dict={dict} />
