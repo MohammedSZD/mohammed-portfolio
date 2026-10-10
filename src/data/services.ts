@@ -21,7 +21,7 @@ export const services: Service[] = [
       tr: "Hızlı ve duyarlı kurumsal ve marka web siteleri — gerekirse çok dilli — temiz yapı, SEO temelleri ve net eylem çağrıları ile.",
       ar: "مواقع سريعة ومتجاوبة للشركات والعلامات التجارية، ثنائية اللغة عند الحاجة، ببنية واضحة وأساسيات تحسين محركات البحث ووضوح في دعوات اتخاذ الإجراء.",
     },
-    examples: ["galaxs-team", "restaurant-website"],
+    examples: ["salti", "galaxs-team"],
   },
   {
     id: "e-commerce",

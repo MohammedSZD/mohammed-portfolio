@@ -13,6 +13,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { GithubIcon } from "@/components/ui/Icons";
 import { publicFileExists } from "@/lib/assets";
 import { Lightbox } from "./Lightbox";
+import { GalleryExplorer, GalleryProvider, HighlightStrip, type CaseGalleryLabels, type CaseGroup, type CaseImage } from "./CaseGallery";
 import { BeforeAfter } from "./BeforeAfter";
 
 function Section({ id, label, children }: { id: string; label: string; children: React.ReactNode }) {
@@ -66,9 +67,49 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
     { label: d.category, value: t(p.category, locale) },
   ].filter(Boolean) as { label: string; value: string }[];
 
+  // Rich, categorized galleries (MEDMAR, SALTI) vs. the simple thumbnail gallery used elsewhere.
+  const groups: CaseGroup[] = (p.galleryGroups ?? []).map((g) => ({ id: g.id, title: t(g.title, locale), intro: g.intro ? t(g.intro, locale) : undefined }));
+  const rich = groups.length > 0;
+  const caseImages: CaseImage[] = rich
+    ? (p.gallery ?? [])
+        .filter((g) => publicFileExists(g.src) && g.width && g.height)
+        .map((g) => ({
+          src: g.src,
+          alt: t(g.alt, locale),
+          caption: g.caption ? t(g.caption, locale) : undefined,
+          description: g.description ? t(g.description, locale) : undefined,
+          category: g.category,
+          device: g.device ?? "desktop",
+          kind: g.kind ?? "viewport",
+          ownership: g.ownership,
+          width: g.width as number,
+          height: g.height as number,
+        }))
+    : [];
+  const galleryLabels: CaseGalleryLabels = {
+    close: dict.gallery.close,
+    next: dict.gallery.next,
+    previous: dict.gallery.previous,
+    of: dict.gallery.of,
+    zoomIn: d.zoomIn,
+    zoomOut: d.zoomOut,
+    fullPage: d.fullPage,
+    fullPageHint: d.fullPageHint,
+    swipeHint: d.swipeHint,
+    all: d.galleryAll,
+    device: d.galleryDevices,
+    desktop: d.desktop,
+    mobile: d.mobile,
+    count: d.count,
+    personal: d.personalBadge,
+    shared: d.sharedBadge,
+    open: dict.gallery.open,
+    screenshot: dict.a11y.screenshot,
+  };
+
   const featureTitle = p.keyFeatures?.some((f) => f.state === "planned") || p.status === "in-development" || p.status === "concept" ? d.featuresPlanned : d.features;
 
-  return (
+  const article = (
     <article>
       <header className="container-x pt-28 md:pt-36">
         <Link href={localePath(locale, "/projects")} className="link mb-10 inline-flex items-center gap-2 text-sm text-muted hover:text-fg">
@@ -140,6 +181,12 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
           </Reveal>
         )}
 
+        {rich && p.highlights && p.highlights.length > 0 && (
+          <Reveal className="pb-6 md:pb-10">
+            <HighlightStrip srcs={p.highlights} title={d.highlights} />
+          </Reveal>
+        )}
+
         <Section id="overview" label={d.overview}>
           <div className="space-y-5 text-lg text-pretty">
             {t(p.description, locale).map((para) => (
@@ -168,6 +215,61 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
             </p>
           )}
         </Section>
+
+        {(p.context || p.objectives) && (
+          <section aria-label={`${d.context} / ${d.objectives}`} className="border-t border-line py-14 md:py-20">
+            <div className="grid gap-12 md:grid-cols-2 md:gap-16">
+              {p.context && (
+                <Reveal>
+                  <h2 className="eyebrow mb-6">{d.context}</h2>
+                  <NumberedList items={t(p.context, locale)} />
+                </Reveal>
+              )}
+              {p.objectives && (
+                <Reveal delay={80}>
+                  <h2 className="eyebrow mb-6 text-accent">{d.objectives}</h2>
+                  <NumberedList items={t(p.objectives, locale)} />
+                </Reveal>
+              )}
+            </div>
+          </section>
+        )}
+
+        {p.contribution && (
+          <Section id="contribution" label={d.contribution}>
+            <div className="space-y-10">
+              <div>
+                <h3 className="mb-4 flex items-center gap-3 font-serif text-2xl leading-tight">
+                  {d.personalTitle}
+                  <span className="rounded-full border border-accent/50 bg-accent-soft px-2.5 py-0.5 font-sans text-[0.68rem] font-medium text-accent">{d.personalBadge}</span>
+                </h3>
+                <ul className="grid gap-3 sm:grid-cols-2">
+                  {p.contribution.personal.map((c) => (
+                    <li key={c.title.en} className="rounded-xl border border-accent/40 bg-bg p-5">
+                      <h4 className="font-medium leading-snug">{t(c.title, locale)}</h4>
+                      {c.body && <p className="mt-1.5 text-sm text-muted text-pretty">{t(c.body, locale)}</p>}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h3 className="mb-4 flex items-center gap-3 font-serif text-2xl leading-tight">
+                  {d.sharedTitle}
+                  <span className="rounded-full border border-line-strong bg-surface-2 px-2.5 py-0.5 font-sans text-[0.68rem] font-medium text-muted">{d.sharedBadge}</span>
+                </h3>
+                <ul className="grid gap-3 sm:grid-cols-2">
+                  {p.contribution.shared.map((c) => (
+                    <li key={c.title.en} className="rounded-xl border border-line bg-surface p-5">
+                      <h4 className="font-medium leading-snug">{t(c.title, locale)}</h4>
+                      {c.body && <p className="mt-1.5 text-sm text-muted text-pretty">{t(c.body, locale)}</p>}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              {p.contribution.note && <p className="border-s-2 border-accent bg-accent-soft py-3 ps-4 pe-4 text-sm text-muted">{t(p.contribution.note, locale)}</p>}
+            </div>
+          </Section>
+        )}
 
         {p.comparison && (
           <section aria-labelledby="comparison" className="border-t border-line py-14 md:py-20">
@@ -225,6 +327,15 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
                 <li key={f.title.en} className="bg-bg p-5">
                   <div className="flex items-start justify-between gap-3">
                     <h3 className="font-medium leading-snug">{t(f.title, locale)}</h3>
+                    {f.ownership && (
+                      <span
+                        className={`shrink-0 rounded-full border px-2 py-0.5 text-[0.65rem] font-medium ${
+                          f.ownership === "personal" ? "border-accent/50 bg-accent-soft text-accent" : "border-line-strong bg-surface-2 text-muted"
+                        }`}
+                      >
+                        {f.ownership === "personal" ? d.personalBadge : d.sharedBadge}
+                      </span>
+                    )}
                     {f.state && (
                       <span className="shrink-0 rounded-full border border-dashed border-line-strong px-2 py-0.5 font-mono text-[0.62rem] uppercase tracking-wider text-subtle">
                         {dict.featureState[f.state]}
@@ -274,7 +385,26 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
           </Section>
         )}
 
-        {galleryItems.length > 0 && (
+        {p.responsive && (
+          <Section id="responsive" label={d.responsive}>
+            <ul className="space-y-3 text-lg">
+              {t(p.responsive, locale).map((r) => (
+                <li key={r} className="relative ps-6 text-pretty before:absolute before:start-0 before:top-[0.85em] before:h-px before:w-3 before:bg-accent">
+                  {r}
+                </li>
+              ))}
+            </ul>
+          </Section>
+        )}
+
+        {rich && caseImages.length > 0 && (
+          <Section id="gallery" label={`${d.gallery} · ${caseImages.length}`}>
+            {p.screenshotNote && <p className="mb-8 max-w-[75ch] border-s-2 border-line-strong ps-4 text-sm text-muted text-pretty">{t(p.screenshotNote, locale)}</p>}
+            <GalleryExplorer groups={groups} images={caseImages} showOwner={!!p.contribution} />
+          </Section>
+        )}
+
+        {!rich && galleryItems.length > 0 && (
           <Section id="gallery" label={d.gallery}>
             <Lightbox items={galleryItems} labels={{ ...dict.gallery, screenshot: dict.a11y.screenshot }} />
           </Section>
@@ -290,6 +420,33 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
               ))}
             </ul>
           </Section>
+        )}
+
+        {p.scope && (
+          <section aria-label={`${d.scopeFuture} / ${d.scopeLimits}`} className="border-t border-line py-14 md:py-20">
+            <div className="grid gap-12 md:grid-cols-2 md:gap-16">
+              <Reveal>
+                <h2 className="eyebrow mb-6">{d.scopeLimits}</h2>
+                <ul className="space-y-3 text-muted">
+                  {t(p.scope.limits, locale).map((x) => (
+                    <li key={x} className="relative ps-6 text-pretty before:absolute before:start-0 before:top-[0.85em] before:h-px before:w-3 before:bg-line-strong">
+                      {x}
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+              <Reveal delay={80}>
+                <h2 className="eyebrow mb-6 text-accent">{d.scopeFuture}</h2>
+                <ul className="space-y-3">
+                  {t(p.scope.future, locale).map((x) => (
+                    <li key={x} className="relative ps-6 text-pretty before:absolute before:start-0 before:top-[0.85em] before:h-px before:w-3 before:bg-accent">
+                      {x}
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            </div>
+          </section>
         )}
 
         {related.length > 0 && (
@@ -328,5 +485,12 @@ export function CaseStudy({ project: p, locale, dict }: { project: Project; loca
         </div>
       </nav>
     </article>
+  );
+  return rich ? (
+    <GalleryProvider images={caseImages} labels={galleryLabels}>
+      {article}
+    </GalleryProvider>
+  ) : (
+    article
   );
 }

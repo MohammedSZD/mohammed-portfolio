@@ -52,6 +52,7 @@ function Flagship({ project: p, index, locale, dict }: { project: Project; index
             </Link>
           </h3>
           <p className="mt-4 text-pretty text-muted">{t(p.summary, locale)}</p>
+          {p.authorship && <p className="mt-3 border-s-2 border-line-strong ps-3 text-xs leading-relaxed text-subtle text-pretty">{t(p.authorship, locale)}</p>}
           {metrics.length > 0 && (
             <dl className="mt-6 grid grid-cols-3 gap-4 border-y border-line py-4">
               {metrics.map((m) => (
